@@ -10,8 +10,7 @@ class DinosaursController < ApplicationController
   end
 
   def create
-    dinosaur_params = params.require( :dinosaur ).permit( :name, :age, :image_url )
-
+  
     @dinosaur = Dinosaur.new( dinosaur_params )
 
     if @dinosaur.save
@@ -28,7 +27,6 @@ class DinosaursController < ApplicationController
   def update
   @dinosaur = Dinosaur.find( params[:id] )
 
-  dinosaur_params = params.require( :dinosaur ).permit( :name, :age, :image_url )
 
   if @dinosaur.update_attributes( dinosaur_params )
      redirect_to @dinosaur
@@ -42,4 +40,13 @@ private
   def dinosaur_params
     params.require(:dinosaur).permit(:name, :age, :image_url)
   end
+
+  def destroy
+    @dinosaur = Dinosaur.find(params[:id])
+
+    @dinosaur.destroy
+
+    redirect_to dinosaurs_path
+  end
+
 end
